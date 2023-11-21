@@ -1,13 +1,11 @@
 package com.mephi.dao;
-
 import com.mephi.model.User;
-import com.mephi.util.Util;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +13,13 @@ import java.util.function.Consumer;
 
 @NoArgsConstructor
 public class UserDaoHibernateImpl implements  UserDao{
-    @PersistenceContext
     private EntityManager em;
+    public UserDaoHibernateImpl(EntityManager entityManager) {
+        this.em = entityManager;
+    }
     @Override
     public void createUsersTable() throws SQLException {
-        Util.statement("CREATE TABLE IF NOT EXISTS \"UserSchema\".users ( \n" +
+        em.createQuery("CREATE TABLE IF NOT EXISTS \"UserSchema\".users ( \n" +
                 "id serial NOT NULL PRIMARY KEY, \n" +
                 "name varchar[] NOT NULL, \n" +
                 "lastName varchar[] NOT NULL,\n" +
@@ -29,7 +29,7 @@ public class UserDaoHibernateImpl implements  UserDao{
 
     @Override
     public void dropUsersTable() throws SQLException {
-        Util.statement("DROP TABLE IF EXISTS users");
+        em.createQuery("DROP TABLE IF EXISTS \"UserSchema\".users");
     }
 
     @Override

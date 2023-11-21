@@ -3,7 +3,6 @@ package com.mephi.dao;
 import com.mephi.model.User;
 import com.mephi.util.Util;
 import lombok.NoArgsConstructor;
-import org.hibernate.Session;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

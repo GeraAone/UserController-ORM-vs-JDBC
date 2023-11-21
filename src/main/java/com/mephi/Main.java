@@ -1,18 +1,14 @@
 package com.mephi;
 
-import com.mephi.dao.UserDao;
 import com.mephi.dao.UserDaoHibernateImpl;
-import com.mephi.model.User;
-
+import com.mephi.service.UserServiceImpl;
+import com.mephi.util.Util;
 import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) {
-        UserDao jdbc = new UserDaoHibernateImpl();
-        try {
-            jdbc.saveUser("Maxim", "Laveykin", (byte) 20);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public static void main(String[] args) throws SQLException {
+        UserDaoHibernateImpl dao = new UserDaoHibernateImpl(Util.createEM());
+        dao.saveUser("max", "lavrov", (byte)23);
+        Util.closeEM();
     }
 }

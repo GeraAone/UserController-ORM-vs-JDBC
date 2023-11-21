@@ -1,5 +1,8 @@
 package com.mephi.util;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import java.sql.*;
 
 public class Util {
@@ -7,6 +10,8 @@ public class Util {
     private static String conUrl = "jdbc:postgresql://localhost:5432/postgres";
     private static String username = "postgres";
     private static String password = "()2003()";
+    private static EntityManagerFactory entityManagerFactory;
+    private static EntityManager entityManager;
 
     public static Connection connection() {
         try {
@@ -17,11 +22,11 @@ public class Util {
             throw new RuntimeException(e);
         }
     }
-    public static String statement(String sql) throws SQLException
+    public static void statement(String sql) throws SQLException
     {
         Connection connection = Util.connection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+        statement.execute(sql);
         statement.execute("CREATE schema IF NOT EXISTS \"UserSchema\"");
         if(connection != null){
             try{
@@ -32,6 +37,17 @@ public class Util {
                 e.printStackTrace();
             }
         }
-        return resultSet.toString();
     }
+    public static EntityManager createEM()
+    {
+        entityManagerFactory = Persistence.createEntityManagerFactory("UserManager");
+        entityManager = entityManagerFactory.createEntityManager();
+        return entityManager;
+    }
+    public static void closeEM()
+    {
+        entityManager.close();
+        entityManagerFactory.close();
+    }
+
 }
