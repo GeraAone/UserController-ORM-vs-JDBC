@@ -1,15 +1,15 @@
 package com.mephi.util;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.sql.*;
 
 public class Util {
 
     private static String conUrl = "jdbc:postgresql://localhost:5432/postgres";
     private static String username = "postgres";
-    private static String password = "()2003()";
+    private static String password = "******";
     private static EntityManagerFactory entityManagerFactory;
     private static EntityManager entityManager;
 
@@ -27,7 +27,7 @@ public class Util {
         Connection connection = Util.connection();
         Statement statement = connection.createStatement();
         statement.execute(sql);
-        statement.execute("CREATE schema IF NOT EXISTS \"UserSchema\"");
+        statement.execute("CREATE schema IF NOT EXISTS \"userschema\"");
         if(connection != null){
             try{
                 connection.close();

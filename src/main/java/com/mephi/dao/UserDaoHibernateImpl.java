@@ -1,11 +1,11 @@
 package com.mephi.dao;
 import com.mephi.model.User;
+import com.mephi.util.Util;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -19,35 +19,35 @@ public class UserDaoHibernateImpl implements  UserDao{
     }
     @Override
     public void createUsersTable() throws SQLException {
-        em.createQuery("CREATE TABLE IF NOT EXISTS \"UserSchema\".users ( \n" +
+        Util.statement("CREATE TABLE IF NOT EXISTS \"userschema\".users ( \n" +
                 "id serial NOT NULL PRIMARY KEY, \n" +
-                "name varchar[] NOT NULL, \n" +
-                "lastName varchar[] NOT NULL,\n" +
+                "name varchar(256) NOT NULL, \n" +
+                "lastName varchar(256) NOT NULL,\n" +
                 "age smallint Not null\n" +
                 ");");
     }
 
     @Override
     public void dropUsersTable() throws SQLException {
-        em.createQuery("DROP TABLE IF EXISTS \"UserSchema\".users");
+        Util.statement("DROP TABLE IF EXISTS \"userschema\".users");
     }
 
     @Override
-    public void saveUser(String name, String lastName, byte age) throws SQLException {
+    public void saveUser(String name, String lastName, byte age){
         User user = new User(name, lastName,age);
         executeInsideTransaction(em -> em.persist(user));
     }
 
     @Override
-    public void removeUserById(long id) throws SQLException {
+    public void removeUserById(long id){
         Optional<User> user = Optional.ofNullable(em.find(User.class, id));
         if(user.isPresent()) System.out.println("Wrong id");
         executeInsideTransaction(em -> em.remove(user.get()));
     }
 
     @Override
-    public List<User> getAllUsers() throws SQLException {
-        Query query = em.createQuery("SELECT * from User.users");
+    public List<User> getAllUsers(){
+        Query query = em.createQuery("SELECT e FROM User e");
         return query.getResultList();
     }
 

@@ -2,20 +2,14 @@ package com.mephi.service;
 import com.mephi.dao.UserDaoHibernateImpl;
 import com.mephi.model.User;
 import com.mephi.util.Util;
-import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 public class UserServiceImpl implements  UserService{
-    @Inject
-    private UserDaoHibernateImpl daoHibernate;
+
+    private UserDaoHibernateImpl daoHibernate = new UserDaoHibernateImpl(Util.createEM());
     @Override
     public void createUsersTable() throws SQLException {
         daoHibernate.createUsersTable();
@@ -27,17 +21,17 @@ public class UserServiceImpl implements  UserService{
     }
 
     @Override
-    public void saveUser(String name, String lastName, byte age) throws SQLException {
+    public void saveUser(String name, String lastName, byte age){
         daoHibernate.saveUser(name, lastName, age);
     }
 
     @Override
-    public void removeUserById(long id) throws SQLException {
+    public void removeUserById(long id){
         daoHibernate.removeUserById(id);
     }
 
     @Override
-    public List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers(){
         return daoHibernate.getAllUsers();
     }
 

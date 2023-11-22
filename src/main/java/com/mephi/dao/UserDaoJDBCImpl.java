@@ -17,10 +17,10 @@ public class UserDaoJDBCImpl implements UserDao{
     private  List<User> userList = new ArrayList<>();
     @Override
     public void createUsersTable() throws SQLException {
-        Util.statement("CREATE TABLE IF NOT EXISTS \"UserSchema\".users ( \n" +
+        Util.statement("CREATE TABLE IF NOT EXISTS \"userschema\".users ( \n" +
                 "id serial NOT NULL PRIMARY KEY, \n" +
-                "name varchar[] NOT NULL, \n" +
-                "lastName varchar[] NOT NULL,\n" +
+                "name varchar(256) NOT NULL, \n" +
+                "lastName varchar(256) NOT NULL,\n" +
                 "age smallint Not null\n" +
                 ");");
 
@@ -28,7 +28,7 @@ public class UserDaoJDBCImpl implements UserDao{
 
     @Override
     public void dropUsersTable() throws SQLException {
-        Util.statement("DROP TABLE IF EXISTS users");
+        Util.statement("DROP TABLE IF EXISTS \"userschema\".users");
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UserDaoJDBCImpl implements UserDao{
     public List<User> getAllUsers() throws SQLException {
         Connection connection = Util.connection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM \"UserSchema\".users");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM \"userschema\".users");
         while(resultSet.next())
         {
             User user = new User(resultSet.getString("name"), resultSet.getString("lastName"), resultSet.getByte("age"));
@@ -61,6 +61,6 @@ public class UserDaoJDBCImpl implements UserDao{
 
     @Override
     public void cleanUsersTable() throws SQLException {
-        Util.statement("Truncate TABLE \"UserSchema\".users");
+        Util.statement("Truncate TABLE \"userschema\".users");
     }
 }

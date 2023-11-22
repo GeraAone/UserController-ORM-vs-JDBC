@@ -1,26 +1,26 @@
 package com.mephi.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
+@Table(schema = "userschema", name = "users")
 @Entity
-@Table(schema = "UserSchema", name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private static Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "name")
-    private static String name;
+    private String name;
 
-    @Column(name = "lastName")
-    private static String lastName;
+    @Column(name = "lastname")
+    private String lastName;
 
     @Column(name = "age")
-    private static Byte age;
+    private Byte age;
 
     public User(String name, String lastName, Byte age)
     {
@@ -33,15 +33,15 @@ public class User {
         return id;
     }
 
-    public static Byte getAge() {
+    public Byte getAge() {
         return age;
     }
 
-    public static String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 }
